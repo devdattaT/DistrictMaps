@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+.district{fill:#80cdc1;stroke:#FFF;stroke-dasharray:2,2;stroke-linejoin:round;stroke-width:.7}.searched{fill:orange;stroke:#FFF;stroke-dasharray:2,2;stroke-linejoin:round;stroke-width:.7;opacity:1}.district-boundary{fill:none;stroke:#777;stroke-dasharray:2,2;stroke-linejoin:round;stroke-width:.7}.district-label{fill:#777;fill-opacity:.5;font-size:20px;font-weight:300;text-anchor:middle}.place,.place-label{fill:#444}text{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:10px;pointer-events:none}
+</style>
+<body>
+<div id="election"></div>
+<script src="d3.min.js"></script>
+<script src="topojson.js"></script>
+<script>
+
+
+var width = 960, height = 750;
+var projection = d3.geo.mercator().center([82, 24]).rotate([0, 0]).scale(1250).translate([380, 330]);
+var path = d3.geo.path().projection(projection).pointRadius(2);
+var svg = d3.select("#election").append("svg").attr("width", width).attr("height", height);
+
+d3.json("2001.json", function (e, t) {
+	var n = topojson.feature(t, t.objects.india);
+	var r = svg.selectAll(".district")
+		.data(n.features).enter().append("path")
+			.attr("class", "district").attr("d", path)
+				.append("svg:title").text(function (e) {
+			return e.properties.pc
+		});
+})
+
+</script>
+
+<div id="output" width=100px height=400px />
+
+</body>
+</html>
